@@ -15,6 +15,13 @@ public class BridgeNativePlugin extends Plugin {
     public void echo(PluginCall call) {
         String value = call.getString("value");
 
+        if (value == null) {
+            call.reject("Message is required");
+            return;
+        }
+
+        implementation.sendMessage(getContext(), value);
+
         JSObject ret = new JSObject();
         ret.put("value", implementation.echo(value));
         call.resolve(ret);
